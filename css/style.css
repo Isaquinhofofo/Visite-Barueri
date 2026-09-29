@@ -102,3 +102,8 @@ textarea{resize:vertical}
 }
 
 .nav-atual{outline:2px solid var(--amarelo)}
+
+/* Créditos das fotografias dos pontos turísticos */
+.credito-foto{font-size:.8rem;color:#254e7b;margin:-12px 0 22px;line-height:1.5}
+.credito-foto a{text-decoration:underline;text-underline-offset:2px}
+.credito-foto a:hover,.credito-foto a:focus-visible{color:#153b63}
