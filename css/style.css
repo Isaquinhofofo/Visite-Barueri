@@ -102,3 +102,6 @@ textarea{resize:vertical}
 }
 
 .nav-atual{outline:2px solid var(--amarelo)}
+
+.credito-foto{font-size:.85rem;color:#254e7b;margin:-12px 0 22px;line-height:1.5}
+.credito-foto a{text-decoration:underline}
