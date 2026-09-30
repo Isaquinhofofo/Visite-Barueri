@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         email,
         password,
         options: {
-          emailRedirectTo: window.location.origin + '/login.html'
+          emailRedirectTo: new URL('login.html', window.location.href).href
         }
       });
 
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       setMessage('recovery-message', 'Enviando link...');
 
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.href.split('?')[0]
+        redirectTo: new URL('recuperar-senha.html', window.location.href).href
       });
 
       if (error) {
