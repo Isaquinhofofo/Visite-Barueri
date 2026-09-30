@@ -1,7 +1,7 @@
-const SUPABASE_URL = 'https://nmwktpnsbwhgxkqmcaud.supabase.co';
+const SUPABASE_URL = 'https://nmwktpnsbwhgxkqmcaud.supabaseClient.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_0v9XHkOALMZlg-cQHE6mCA_d_1j6xbE';
 
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const supabaseClient = window.supabaseClient.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
 function initials(name, email) {
   const source = (name || email || '?').trim();
