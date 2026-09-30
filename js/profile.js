@@ -172,12 +172,46 @@ function buildLoginButton() {
   const old = document.querySelector('.topo .user');
   if (!old) return;
 
+  const wrapper = document.createElement('div');
+  wrapper.className = 'user-menu-wrapper';
+
   const link = document.createElement('a');
   link.className = 'user';
   link.href = 'login.html';
   link.title = 'Entrar';
   link.textContent = '👤';
-  old.replaceWith(link);
+
+  const card = document.createElement('div');
+  card.className = 'user-id-card user-login-card';
+
+  const title = document.createElement('strong');
+  title.textContent = 'Você não está conectado';
+
+  const text = document.createElement('p');
+  text.textContent = 'Entre para editar seu perfil, adicionar uma foto e acessar seus dados.';
+
+  const actions = document.createElement('div');
+  actions.className = 'user-id-actions';
+
+  const login = document.createElement('a');
+  login.className = 'user-id-edit';
+  login.href = 'login.html';
+  login.textContent = 'Entrar';
+
+  const signup = document.createElement('a');
+  signup.className = 'user-id-logout';
+  signup.href = 'cadastro.html';
+  signup.textContent = 'Cadastrar';
+
+  actions.append(login, signup);
+  card.append(title, text, actions);
+  wrapper.append(link, card);
+
+  link.addEventListener('click', () => {
+    wrapper.classList.remove('open');
+  });
+
+  old.replaceWith(wrapper);
 }
 
 async function initHeader() {
