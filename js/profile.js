@@ -1,17 +1,12 @@
 const SUPABASE_URL = 'https://nmwktpnsbwhgxkqmcaud.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_0v9XHkOALMZlg-cQHE6mCA_d_1j6xbE';
+
 let supabaseClient;
-
-const supabaseClientReady = (async () => {
-  if (window.supabase && typeof window.supabase.createClient === 'function') {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const supabaseClientReady = import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm')
+  .then(({ createClient }) => {
+    supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
     return supabaseClient;
-  }
-
-  const sdk = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-  supabaseClient = sdk.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-  return supabaseClient;
-})();
+  });
 
 
 function initials(name, email) {
