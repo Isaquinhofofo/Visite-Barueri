@@ -141,3 +141,6 @@ textarea{resize:vertical}
 .profile-message{min-height:24px;margin:8px 0;text-align:center;font-weight:700}
 .profile-back{display:block;text-align:center;margin-top:14px;font-weight:700}
 @media(max-width:700px){.user-id-card{right:-4px}.user-id-actions{flex-direction:column}}
+
+.user-login-card>strong{display:block;color:#193c61;font-size:1rem;margin-bottom:6px}
+.user-login-card>p{font-size:.84rem;line-height:1.5;color:#55718c;margin-bottom:14px}
