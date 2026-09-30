@@ -1,6 +1,17 @@
 const SUPABASE_URL = 'https://nmwktpnsbwhgxkqmcaud.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_0v9XHkOALMZlg-cQHE6mCA_d_1j6xbE';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+let supabaseClient;
+
+const supabaseClientReady = (async () => {
+  if (window.supabase && typeof window.supabase.createClient === 'function') {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    return supabaseClient;
+  }
+
+  const sdk = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+  supabaseClient = sdk.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  return supabaseClient;
+})();
 
 
 function initials(name, email) {
@@ -13,7 +24,7 @@ function safe(value, fallback) {
 }
 
 async function getProfile(user) {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from('profiles')
     .select('id,email,username,full_name,avatar_url,bio')
     .eq('id', user.id)
@@ -23,7 +34,7 @@ async function getProfile(user) {
 
   if (data) return data;
 
-  const { data: created, error: createError } = await supabase
+  const { data: created, error: createError } = await supabaseClient
     .from('profiles')
     .upsert({
       id: user.id,
@@ -316,7 +327,7 @@ async function initProfilePage() {
         avatarUrl = publicData.publicUrl;
       }
 
-      const { error: updateError } = await supabase
+      const { error: updateError } = await supabaseClient
         .from('profiles')
         .update({
           username,
@@ -344,6 +355,12 @@ async function initProfilePage() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    await supabaseClientReady;
+  } catch (error) {
+    console.error('Inicialização do Supabase:', error);
+    return;
+  }
   await initHeader();
   await initProfilePage();
 });
