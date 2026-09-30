@@ -144,3 +144,18 @@ textarea{resize:vertical}
 
 .user-login-card>strong{display:block;color:#193c61;font-size:1rem;margin-bottom:6px}
 .user-login-card>p{font-size:.84rem;line-height:1.5;color:#55718c;margin-bottom:14px}
+
+
+/* ---------- Atalhos da página inicial ---------- */
+.atalhos{position:relative;overflow:hidden;background:var(--amarelo);color:var(--azul-esc);padding:44px 20px 58px;isolation:isolate}
+.atalhos-textura{position:absolute;inset:-20px -10px auto;z-index:-1;opacity:.13;font-size:2.7rem;letter-spacing:18px;line-height:2.5;transform:rotate(-4deg);white-space:normal;pointer-events:none;user-select:none}
+.atalhos-conteudo{position:relative;max-width:1100px;margin:0 auto}
+.atalhos h2{text-align:center;font-family:'Pathway Gothic One',sans-serif;font-weight:400;font-size:2.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--azul-esc)}
+.atalhos-intro{text-align:center;max-width:650px;margin:8px auto 28px;color:#315a80;font-size:.98rem}
+.atalhos-grade{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.atalho{min-height:78px;display:flex;align-items:center;gap:12px;padding:14px 18px;background:rgba(255,255,255,.82);border:2px solid rgba(42,93,148,.22);border-radius:18px;color:var(--azul-esc);box-shadow:0 5px 12px rgba(42,93,148,.12);transition:transform .16s,box-shadow .16s,background .16s}
+.atalho span{font-size:1.7rem;line-height:1;flex:0 0 auto}
+.atalho strong{font-size:.92rem;line-height:1.2}
+.atalho:hover{transform:translateY(-3px);background:var(--branco);box-shadow:var(--sombra);border-color:rgba(42,93,148,.4)}
+@media(max-width:850px){.atalhos-grade{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.atalhos{padding:34px 14px 44px}.atalhos h2{font-size:2.2rem}.atalhos-grade{grid-template-columns:1fr}.atalho{min-height:68px}}
