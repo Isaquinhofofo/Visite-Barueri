@@ -1,7 +1,7 @@
 const SUPABASE_URL = 'https://nmwktpnsbwhgxkqmcaud.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_0v9XHkOALMZlg-cQHE6mCA_d_1j6xbE';
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
 function initials(name, email) {
   const source = (name || email || '?').trim();
@@ -118,7 +118,7 @@ function buildUserMenu(user, profile) {
   logout.addEventListener('click', async () => {
     logout.disabled = true;
     logout.textContent = 'Saindo...';
-    const { error } = await supabase.auth.signOut({ scope: 'local' });
+    const { error } = await supabaseClient.auth.signOut({ scope: 'local' });
     if (error) {
       console.error('Logout Supabase:', error);
       logout.disabled = false;
@@ -219,7 +219,7 @@ async function initHeader() {
   if (!anchor) return;
 
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await supabaseClient.auth.getUser();
     if (!user) {
       buildLoginButton();
       return;
@@ -244,7 +244,7 @@ async function initProfilePage() {
 
   const setMessage = (text) => { message.textContent = text; };
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await supabaseClient.auth.getUser();
   if (!user) {
     window.location.replace('login.html');
     return;
@@ -306,13 +306,13 @@ async function initProfilePage() {
         const extension = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
         const path = user.id + '/' + Date.now() + '.' + (extension || 'jpg');
 
-        const { error: uploadError } = await supabase.storage
+        const { error: uploadError } = await supabaseClient.storage
           .from('avatars')
           .upload(path, file, { cacheControl: '3600', upsert: false });
 
         if (uploadError) throw uploadError;
 
-        const { data: publicData } = supabase.storage.from('avatars').getPublicUrl(path);
+        const { data: publicData } = supabaseClient.storage.from('avatars').getPublicUrl(path);
         avatarUrl = publicData.publicUrl;
       }
 
