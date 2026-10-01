@@ -6,7 +6,7 @@
 <title>Meu perfil – Visite Barueri</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Pathway+Gothic+One&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20261001-1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/profile.js" defer></script>
 </head>
@@ -17,10 +17,10 @@
   <form class="caixa profile-card" id="profile-form">
     <h2>Meu perfil</h2>
     <div class="profile-avatar" id="profile-avatar-preview">👤</div>
-    <label>Foto de perfil:
-      <span class="profile-file-button">Escolher foto</span>
+    <div class="profile-photo-field">
+      <label class="profile-file-button" for="avatar-file">Escolher foto</label>
       <input id="avatar-file" class="profile-file-input" type="file" accept="image/*">
-    </label>
+    </div>
     <label>Email:
       <input id="profile-email" type="email" readonly>
     </label>
