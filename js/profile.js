@@ -254,6 +254,11 @@ async function initProfilePage() {
   const saveButton = document.getElementById('save-profile');
   const avatarPreview = document.getElementById('profile-avatar-preview');
   const fileInput = document.getElementById('avatar-file');
+  const chooseAvatar = document.getElementById('choose-avatar');
+
+  if (chooseAvatar && fileInput) {
+    chooseAvatar.addEventListener('click', () => fileInput.click());
+  }
 
   const setMessage = (text) => { message.textContent = text; };
 
