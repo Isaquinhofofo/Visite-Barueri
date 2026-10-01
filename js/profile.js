@@ -22,7 +22,7 @@ const USERNAME_SUGGESTIONS = ['viajante_urbano','explorador_sp','rota_explorador
 function setRandomUsernameSuggestion() {
   const input = document.getElementById('profile-username');
   if (!input) return;
-  input.placeholder = 'ex.: ' + USERNAME_SUGGESTIONS[Math.floor(Math.random() * USERNAME_SUGGESTIONS.length)];
+  input.placeholder = USERNAME_SUGGESTIONS[Math.floor(Math.random() * USERNAME_SUGGESTIONS.length)];
 }
 
 async function getProfile(user) {
