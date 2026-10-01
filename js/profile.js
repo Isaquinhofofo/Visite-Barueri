@@ -18,6 +18,13 @@ function safe(value, fallback) {
   return value && String(value).trim() ? String(value).trim() : fallback;
 }
 
+const USERNAME_SUGGESTIONS = ['viajante_urbano','explorador_sp','rota_exploradora','caminho_livre','passos_pela_cidade','viajando_por_ai','descobridor_urbano','rota_do_sol','barueri_explorer','barueri_na_rota','visitante_barueri','descobrindo_barueri','barueri_por_ai','role_barueri','conheca_barueri','barueri_360','passeio_livre','olhar_urbano','mapa_aberto','destino_certo','nova_rota','caminhante_sp','curioso_urbano','vivendo_a_cidade','rota_728','viajante_42','explorer_317','passeio_84','urbano_526','descobridor_91','rota_203','visitante_614'];
+function setRandomUsernameSuggestion() {
+  const input = document.getElementById('profile-username');
+  if (!input) return;
+  input.placeholder = 'ex.: ' + USERNAME_SUGGESTIONS[Math.floor(Math.random() * USERNAME_SUGGESTIONS.length)];
+}
+
 async function getProfile(user) {
   const { data, error } = await supabaseClient
     .from('profiles')
@@ -265,6 +272,7 @@ async function initProfilePage() {
     return;
   }
 
+  setRandomUsernameSuggestion();
   document.getElementById('profile-email').value = user.email || '';
   document.getElementById('profile-username').value = profile.username || '';
   document.getElementById('profile-full-name').value = profile.full_name || '';
