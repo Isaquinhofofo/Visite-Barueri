@@ -347,6 +347,7 @@ async function initProfilePage() {
       fileInput.value = '';
       setMessage('Perfil atualizado com sucesso!');
       await initHeader();
+      window.setTimeout(() => { window.location.href = 'index.html'; }, 500);
     } catch (error) {
       console.error('Atualização do perfil:', error);
       setMessage(error.message || 'Não foi possível salvar o perfil.');
