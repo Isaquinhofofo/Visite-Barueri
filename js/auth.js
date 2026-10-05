@@ -13,6 +13,10 @@ function getSupabaseClient() {
   return window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 }
 
+function showAuthError(id, fallback) {
+  showMessage(id, fallback);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   let supabase;
   try {
@@ -39,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
       } catch (error) {
         console.error('Login Supabase:', error);
-        showMessage('login-message', error.message || 'Não foi possível entrar. Verifique o email e a senha.');
+        showAuthError('login-message', 'Não foi possível entrar. Verifique o email e a senha.');
       }
     });
   }
@@ -53,6 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = document.getElementById('signup-email').value.trim();
       const password = document.getElementById('signup-password').value;
       const confirmation = document.getElementById('signup-password-confirm').value;
+
+      if (password.length < 8) {
+        showMessage('signup-message', 'A senha deve ter pelo menos 8 caracteres.');
+        return;
+      }
 
       if (password !== confirmation) {
         showMessage('signup-message', 'As senhas não coincidem.');
@@ -76,12 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
           showMessage('signup-message', 'Conta criada! Entrando...');
           window.location.href = 'index.html';
         } else {
-          showMessage('signup-message', 'Conta criada! Verifique seu email para confirmar o cadastro antes de entrar.');
+          showMessage('signup-message', 'Se o cadastro for válido, enviaremos um email de confirmação. Verifique sua caixa de entrada.');
           signupForm.reset();
         }
       } catch (error) {
         console.error('Cadastro Supabase:', error);
-        showMessage('signup-message', error.message || 'Não foi possível criar a conta.');
+        showAuthError('signup-message', 'Não foi possível concluir o cadastro. Verifique os dados e tente novamente.');
       }
     });
   }
@@ -102,10 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
           redirectTo: new URL('recuperar-senha.html', window.location.href).href
         });
         if (error) throw error;
-        showMessage('recovery-message', 'Link enviado! Verifique seu email para continuar.');
+        showMessage('recovery-message', 'Se o email estiver cadastrado, enviaremos um link para redefinir a senha.');
       } catch (error) {
         console.error('Recuperação Supabase:', error);
-        showMessage('recovery-message', error.message || 'Não foi possível enviar o link. Tente novamente.');
+        showMessage('recovery-message', 'Não foi possível processar a solicitação. Tente novamente.');
       }
     });
   }
@@ -123,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = document.getElementById('new-password').value;
       const confirmation = document.getElementById('new-password-confirm').value;
 
-      if (password.length < 6) {
-        showMessage('new-password-message', 'A senha deve ter pelo menos 6 caracteres.');
+      if (password.length < 8) {
+        showMessage('new-password-message', 'A senha deve ter pelo menos 8 caracteres.');
         return;
       }
 
@@ -142,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'login.html';
       } catch (error) {
         console.error('Atualização de senha:', error);
-        showMessage('new-password-message', error.message || 'Não foi possível atualizar a senha. Solicite um novo link.');
+        showMessage('new-password-message', 'Não foi possível atualizar a senha. Solicite um novo link.');
       }
     });
   }
