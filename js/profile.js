@@ -11,7 +11,7 @@ const supabaseClientReady = import('https://cdn.jsdelivr.net/npm/@supabase/supab
 
 function initials(name, email) {
   const source = (name || email || '?').trim();
-  return source.split(/\\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase() || '?';
+  return source.split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase() || '?';
 }
 
 function safe(value, fallback) {
