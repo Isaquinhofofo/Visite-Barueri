@@ -2,7 +2,7 @@ const SUPABASE_URL = 'https://nmwktpnsbwhgxkqmcaud.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_0v9XHkOALMZlg-cQHE6mCA_d_1j6xbE';
 
 let supabaseClient;
-const supabaseClientReady = import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm')
+const supabaseClientReady = import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/+esm')
   .then(({ createClient }) => {
     supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
     return supabaseClient;
