@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Pathway+Gothic+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css?v=20261006-4">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2"></script>
-<script src="js/admin.js?v=20261006-6" defer></script>
+<script src="js/admin.js?v=20261006-7" defer></script>
 </head>
 <body>
 <main>
@@ -46,7 +46,11 @@
         <textarea id="place-description" name="description" rows="5" required placeholder="Conte um pouco sobre o lugar."></textarea>
       </label>
 
-      <p class="admin-help">As imagens serão adicionadas em uma etapa posterior.</p>
+      <label>Imagens do lugar
+        <input id="place-images" name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+      </label>
+      <p class="admin-help">Você pode selecionar várias imagens. Formatos: JPG, PNG ou WebP. Máximo de 5 MB por imagem.</p>
+      <div id="image-preview" class="admin-image-preview" aria-live="polite"></div>
 
       <h3 class="admin-section-title">Localização</h3>
 
