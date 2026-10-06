@@ -30,12 +30,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const message = document.getElementById('place-message');
     const imageInput = document.getElementById('place-images');
     const imagePreview = document.getElementById('image-preview');
+    const imageCount = document.getElementById('image-count');
     const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
     const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
     imageInput.addEventListener('change', () => {
       imagePreview.innerHTML = '';
-      [...imageInput.files].forEach((file) => {
+      const files = [...imageInput.files];
+      imageCount.textContent = files.length
+        ? files.length + (files.length === 1 ? ' imagem selecionada' : ' imagens selecionadas')
+        : 'Nenhuma imagem selecionada';
+
+      files.forEach((file) => {
         const figure = document.createElement('figure');
         const img = document.createElement('img');
         const caption = document.createElement('figcaption');
@@ -237,6 +243,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       form.reset();
       imagePreview.innerHTML = '';
+      imageCount.textContent = 'Nenhuma imagem selecionada';
       updateCategory();
       city.value = '';
       state.value = '';
