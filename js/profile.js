@@ -279,7 +279,11 @@ async function initProfilePage() {
   setAvatar(avatarPreview, profile, user);
 
   const adminLink = document.getElementById('admin-area-link');
-  if (adminLink) adminLink.hidden = profile.is_admin !== true;
+  if (adminLink) {
+    const isAdmin = profile?.is_admin === true;
+    adminLink.hidden = !isAdmin;
+    adminLink.style.display = isAdmin ? 'block' : 'none';
+  }
 
   fileInput.addEventListener('change', () => {
     const file = fileInput.files[0];
