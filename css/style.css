@@ -153,3 +153,11 @@ textarea{resize:vertical}
 .admin-price-input span{background:var(--branco);color:var(--azul-esc);border:2px solid var(--branco);border-right:0;border-radius:10px 0 0 10px;padding:11px 12px;font-weight:700}
 .admin-price-input input{margin-top:0;border-radius:0 10px 10px 0}
 @media(max-width:700px){.admin-days{grid-template-columns:repeat(2,1fr)}}
+
+.admin-image-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:-4px 0 18px}
+.admin-image-preview:empty{display:none}
+.admin-image-preview figure{margin:0;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.55)}
+.admin-image-preview img{display:block;width:100%;height:130px;object-fit:cover}
+.admin-image-preview figcaption{padding:6px 8px;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-form input[type="file"]{padding:9px 10px;cursor:pointer}
+@media(max-width:700px){.admin-image-preview{grid-template-columns:repeat(2,1fr)}}
