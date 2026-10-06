@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Pathway+Gothic+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css?v=20261006-4">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2"></script>
-<script src="js/admin.js?v=20261006-3" defer></script>
+<script src="js/admin.js?v=20261006-4" defer></script>
 </head>
 <body>
 <main>
@@ -27,27 +27,33 @@
       <label>Categoria *
         <select id="place-category" name="category" required>
           <option value="">Selecione uma categoria</option>
-          <option>Restaurante</option>
-          <option>Parque</option>
-          <option>Shopping</option>
-          <option>Hotel</option>
-          <option>Cultura</option>
-          <option>Lazer</option>
-          <option>Esportes</option>
-          <option>Outros</option>
+          <option value="Restaurante">Restaurante</option>
+          <option value="Parque">Parque</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Hotel">Hotel</option>
+          <option value="Cultura">Cultura</option>
+          <option value="Lazer">Lazer</option>
+          <option value="Esportes">Esportes</option>
+          <option value="Outros">Outros</option>
         </select>
+      </label>
+
+      <label id="custom-category-label" hidden>Nome da categoria
+        <input id="place-custom-category" name="custom_category" type="text" placeholder="Digite o nome da categoria">
       </label>
 
       <label>Descrição *
         <textarea id="place-description" name="description" rows="5" required placeholder="Conte um pouco sobre o lugar."></textarea>
       </label>
 
-      <label>Imagem (URL)
-        <input id="place-image-url" name="image_url" type="url" placeholder="https://...">
-      </label>
-      <p class="admin-help">Por enquanto, coloque o link direto da imagem. O upload de imagens pode ser adicionado depois.</p>
+      <p class="admin-help">As imagens serão adicionadas em uma etapa posterior.</p>
 
       <h3 class="admin-section-title">Localização</h3>
+
+      <label>CEP
+        <input id="place-cep" name="cep" type="text" inputmode="numeric" maxlength="9" placeholder="06400-000">
+      </label>
+      <p id="cep-message" class="admin-help" aria-live="polite"></p>
 
       <label>Endereço *
         <input id="place-address" name="address" type="text" required placeholder="Rua, número">
@@ -57,9 +63,14 @@
         <input id="place-neighborhood" name="neighborhood" type="text" required placeholder="Ex.: Centro">
       </label>
 
-      <label>CEP
-        <input id="place-cep" name="cep" type="text" placeholder="06400-000">
-      </label>
+      <div class="admin-two-columns">
+        <label>Cidade
+          <input id="place-city" name="city" type="text" readonly>
+        </label>
+        <label>Estado
+          <input id="place-state" name="state" type="text" readonly>
+        </label>
+      </div>
 
       <label>Google Maps
         <input id="place-maps-url" name="maps_url" type="url" placeholder="https://maps.google.com/...">
@@ -80,14 +91,22 @@
       </label>
 
       <label>Instagram
-        <input id="place-instagram" name="instagram" type="text" placeholder="@perfil">
+        <input id="place-instagram" name="instagram" type="url" placeholder="https://instagram.com/perfil">
       </label>
+      <p class="admin-help">Use o link completo da rede social. Ele poderá ser acessado diretamente quando aparecer no site.</p>
 
       <h3 class="admin-section-title">Funcionamento</h3>
 
-      <label>Dias de funcionamento
-        <input id="place-opening-days" name="opening_days" type="text" placeholder="Segunda a domingo">
-      </label>
+      <fieldset class="admin-days">
+        <legend>Dias de funcionamento</legend>
+        <label><input type="checkbox" name="opening_day" value="Segunda"> Segunda</label>
+        <label><input type="checkbox" name="opening_day" value="Terça"> Terça</label>
+        <label><input type="checkbox" name="opening_day" value="Quarta"> Quarta</label>
+        <label><input type="checkbox" name="opening_day" value="Quinta"> Quinta</label>
+        <label><input type="checkbox" name="opening_day" value="Sexta"> Sexta</label>
+        <label><input type="checkbox" name="opening_day" value="Sábado"> Sábado</label>
+        <label><input type="checkbox" name="opening_day" value="Domingo"> Domingo</label>
+      </fieldset>
 
       <div class="admin-two-columns">
         <label>Abre às
@@ -101,14 +120,10 @@
       <h3 class="admin-section-title">Informações extras</h3>
 
       <label>Faixa de preço
-        <select id="place-price-range" name="price_range">
-          <option value="">Não informado</option>
-          <option>Grátis</option>
-          <option>$</option>
-          <option>$$</option>
-          <option>$$$</option>
-          <option>$$$$</option>
-        </select>
+        <div class="admin-price-input">
+          <span>R$</span>
+          <input id="place-price-range" name="price_range" type="text" inputmode="decimal" placeholder="0,00" maxlength="12">
+        </div>
       </label>
 
       <label class="admin-checkbox">
