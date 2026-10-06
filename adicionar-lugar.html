@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Pathway+Gothic+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css?v=20261006-4">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2"></script>
-<script src="js/admin.js?v=20261006-4" defer></script>
+<script src="js/admin.js?v=20261006-5" defer></script>
 </head>
 <body>
 <main>
@@ -56,7 +56,11 @@
       <p id="cep-message" class="admin-help" aria-live="polite"></p>
 
       <label>Endereço *
-        <input id="place-address" name="address" type="text" required placeholder="Rua, número">
+        <input id="place-address" name="address" type="text" required placeholder="Rua, avenida, praça...">
+      </label>
+
+      <label>Número *
+        <input id="place-address-number" name="address_number" type="text" required inputmode="numeric" placeholder="Ex.: 123">
       </label>
 
       <label>Bairro *
