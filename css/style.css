@@ -147,3 +147,17 @@ textarea{resize:vertical}
 .user-login-card>p{font-size:.84rem;line-height:1.5;color:#55718c;margin-bottom:14px}
 
 .galeria-local{margin-bottom:18px}.galeria-local .galeria-imagem{display:block;width:100%;max-height:420px;object-fit:cover;border-radius:12px;cursor:pointer}.galeria-controles{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px}.galeria-controles button{border:0;border-radius:10px;padding:9px 15px;background:var(--azul);color:var(--branco);font:inherit;cursor:pointer}.galeria-contador{min-width:80px;text-align:center;color:var(--azul);font-weight:700}.galeria-controles button:hover{filter:brightness(.92)}
+
+
+/* ---------- Administração ---------- */
+.profile-admin-link{display:block;margin-top:12px;width:100%;background:var(--amarelo);color:var(--azul-esc);
+  border-radius:40px;padding:12px 20px;font:700 1.05rem 'DM Sans',sans-serif;text-align:center;
+  box-shadow:0 3px 8px rgba(0,0,0,.14);transition:transform .15s,box-shadow .15s}
+.profile-admin-link:hover{transform:translateY(-2px);box-shadow:var(--sombra)}
+.admin-card{text-align:center}
+.admin-card h2{margin-bottom:12px}
+.admin-badge{display:inline-block;background:var(--amarelo);color:var(--azul-esc);border-radius:30px;
+  padding:7px 16px;font-weight:700;margin-bottom:20px}
+.admin-description{font-size:.95rem;opacity:.9;line-height:1.6;margin-bottom:22px}
+.admin-actions{display:grid;gap:12px}
+.admin-actions .btn{margin-top:0}
