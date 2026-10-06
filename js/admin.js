@@ -28,6 +28,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!form) return;
 
     const message = document.getElementById('place-message');
+    const imageInput = document.getElementById('place-images');
+    const imagePreview = document.getElementById('image-preview');
+    const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+    imageInput.addEventListener('change', () => {
+      imagePreview.innerHTML = '';
+      [...imageInput.files].forEach((file) => {
+        const figure = document.createElement('figure');
+        const img = document.createElement('img');
+        const caption = document.createElement('figcaption');
+
+        img.src = URL.createObjectURL(file);
+        img.alt = file.name;
+        caption.textContent = file.name;
+
+        figure.appendChild(img);
+        figure.appendChild(caption);
+        imagePreview.appendChild(figure);
+      });
+    });
+
     const category = document.getElementById('place-category');
     const customCategoryLabel = document.getElementById('custom-category-label');
     const customCategory = document.getElementById('place-custom-category');
@@ -129,6 +151,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         category: finalCategory,
         description: value('place-description'),
         image_url: null,
+        image_urls: [],
         address: fullAddress,
         neighborhood: value('place-neighborhood'),
         cep: value('place-cep') || null,
@@ -144,7 +167,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         accessibility: document.getElementById('place-accessibility').checked
       };
 
-      const { error: insertError } = await supabase.from('places').insert(data);
+      const files = [...imageInput.files];
+
+      for (const file of files) {
+        if (!allowedImageTypes.includes(file.type) || file.size > MAX_IMAGE_SIZE) {
+          message.textContent = 'Cada imagem precisa ser JPG, PNG ou WebP e ter no máximo 5 MB.';
+          return;
+        }
+      }
+
+      const { data: insertedPlace, error: insertError } = await supabase
+        .from('places')
+        .insert(data)
+        .select('id')
+        .single();
 
       if (insertError) {
         console.error('Cadastro do lugar:', insertError);
@@ -152,7 +188,55 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
+      const uploadedUrls = [];
+
+      try {
+        for (const file of files) {
+          const safeName = file.name
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-zA-Z0-9._-]/g, '-');
+
+          const filePath = insertedPlace.id + '/' + Date.now() + '-' + crypto.randomUUID() + '-' + safeName;
+
+          const { error: uploadError } = await supabase
+            .storage
+            .from('place-images')
+            .upload(filePath, file, {
+              cacheControl: '3600',
+              upsert: false,
+              contentType: file.type
+            });
+
+          if (uploadError) throw uploadError;
+
+          const { data: publicUrlData } = supabase
+            .storage
+            .from('place-images')
+            .getPublicUrl(filePath);
+
+          uploadedUrls.push(publicUrlData.publicUrl);
+        }
+
+        if (uploadedUrls.length) {
+          const { error: imageUpdateError } = await supabase
+            .from('places')
+            .update({
+              image_url: uploadedUrls[0],
+              image_urls: uploadedUrls
+            })
+            .eq('id', insertedPlace.id);
+
+          if (imageUpdateError) throw imageUpdateError;
+        }
+      } catch (imageError) {
+        console.error('Upload das imagens:', imageError);
+        message.textContent = 'O lugar foi criado, mas não foi possível enviar todas as imagens.';
+        return;
+      }
+
       form.reset();
+      imagePreview.innerHTML = '';
       updateCategory();
       city.value = '';
       state.value = '';
