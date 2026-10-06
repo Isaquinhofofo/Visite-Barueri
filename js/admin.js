@@ -29,16 +29,99 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const message = document.getElementById('place-message');
 
+    const category = document.getElementById('place-category');
+    const customCategoryLabel = document.getElementById('custom-category-label');
+    const customCategory = document.getElementById('place-custom-category');
+
+    const updateCategory = () => {
+      const isOther = category.value === 'Outros';
+      customCategoryLabel.hidden = !isOther;
+      customCategory.required = isOther;
+      if (!isOther) customCategory.value = '';
+    };
+    category.addEventListener('change', updateCategory);
+    updateCategory();
+
+    const cep = document.getElementById('place-cep');
+    const address = document.getElementById('place-address');
+    const neighborhood = document.getElementById('place-neighborhood');
+    const city = document.getElementById('place-city');
+    const state = document.getElementById('place-state');
+    const cepMessage = document.getElementById('cep-message');
+
+    const formatCep = (value) => {
+      const digits = value.replace(/\D/g, '').slice(0, 8);
+      return digits.length > 5 ? digits.slice(0, 5) + '-' + digits.slice(5) : digits;
+    };
+
+    let cepTimeout;
+    cep.addEventListener('input', () => {
+      cep.value = formatCep(cep.value);
+      clearTimeout(cepTimeout);
+      cepMessage.textContent = '';
+
+      if (cep.value.replace(/\D/g, '').length === 8) {
+        cepTimeout = setTimeout(async () => {
+          cepMessage.textContent = 'Consultando CEP...';
+          try {
+            const response = await fetch('https://viacep.com.br/ws/' + cep.value.replace(/\D/g, '') + '/json/');
+            const data = await response.json();
+
+            if (data.erro) {
+              cepMessage.textContent = 'CEP não encontrado.';
+              return;
+            }
+
+            address.value = data.logradouro || '';
+            neighborhood.value = data.bairro || '';
+            city.value = data.localidade || '';
+            state.value = data.uf || '';
+            cepMessage.textContent = 'Endereço preenchido automaticamente.';
+          } catch (error) {
+            console.error('Consulta CEP:', error);
+            cepMessage.textContent = 'Não foi possível consultar o CEP.';
+          }
+        }, 250);
+      }
+    });
+
+    const priceInput = document.getElementById('place-price-range');
+    priceInput.addEventListener('input', () => {
+      let digits = priceInput.value.replace(/\D/g, '').slice(0, 9);
+      if (!digits) {
+        priceInput.value = '';
+        return;
+      }
+
+      digits = digits.padStart(3, '0');
+      const cents = digits.slice(-2);
+      const reais = digits.slice(0, -2).replace(/^0+(?=\d)/, '');
+      priceInput.value = reais + ',' + cents;
+    });
+
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       message.textContent = 'Salvando...';
 
       const value = (id) => document.getElementById(id).value.trim();
+      const selectedDays = [...form.querySelectorAll('input[name="opening_day"]:checked')]
+        .map(input => input.value);
+
+      const selectedCategory = value('place-category');
+      const finalCategory = selectedCategory === 'Outros'
+        ? value('place-custom-category')
+        : selectedCategory;
+
+      const priceDigits = value('place-price-range').replace(/\D/g, '');
+      const priceValue = priceDigits
+        ? (Number(priceDigits) / 100).toFixed(2)
+        : null;
+
       const data = {
         name: value('place-name'),
-        category: value('place-category'),
+        category: finalCategory,
         description: value('place-description'),
-        image_url: value('place-image-url') || null,
+        image_url: null,
         address: value('place-address'),
         neighborhood: value('place-neighborhood'),
         cep: value('place-cep') || null,
@@ -47,10 +130,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         whatsapp: value('place-whatsapp') || null,
         website: value('place-website') || null,
         instagram: value('place-instagram') || null,
-        opening_days: value('place-opening-days') || null,
+        opening_days: selectedDays.length ? selectedDays.join(', ') : null,
         opening_time: value('place-opening-time') || null,
         closing_time: value('place-closing-time') || null,
-        price_range: value('place-price-range') || null,
+        price_range: priceValue,
         accessibility: document.getElementById('place-accessibility').checked
       };
 
@@ -63,6 +146,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       form.reset();
+      updateCategory();
+      city.value = '';
+      state.value = '';
+      cepMessage.textContent = '';
       message.textContent = 'Lugar adicionado com sucesso!';
     });
   } catch (error) {
