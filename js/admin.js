@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const updateCategory = () => {
       const isOther = category.value === 'Outros';
       customCategoryLabel.hidden = !isOther;
+      customCategoryLabel.style.display = isOther ? 'block' : 'none';
       customCategory.required = isOther;
       if (!isOther) customCategory.value = '';
     };
