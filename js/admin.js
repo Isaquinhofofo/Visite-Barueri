@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!form) return;
 
     const message = document.getElementById('place-message');
-
     const category = document.getElementById('place-category');
     const customCategoryLabel = document.getElementById('custom-category-label');
     const customCategory = document.getElementById('place-custom-category');
@@ -39,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       customCategory.required = isOther;
       if (!isOther) customCategory.value = '';
     };
+
     category.addEventListener('change', updateCategory);
     updateCategory();
 
@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const priceInput = document.getElementById('place-price-range');
     priceInput.addEventListener('input', () => {
       let digits = priceInput.value.replace(/\D/g, '').slice(0, 9);
+
       if (!digits) {
         priceInput.value = '';
         return;
@@ -117,12 +118,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         ? (Number(priceDigits) / 100).toFixed(2)
         : null;
 
+      const addressNumber = value('place-address-number');
+      const fullAddress = addressNumber
+        ? value('place-address') + ', ' + addressNumber
+        : value('place-address');
+
       const data = {
         name: value('place-name'),
         category: finalCategory,
         description: value('place-description'),
         image_url: null,
-        address: value('place-address'),
+        address: fullAddress,
         neighborhood: value('place-neighborhood'),
         cep: value('place-cep') || null,
         maps_url: value('place-maps-url') || null,
