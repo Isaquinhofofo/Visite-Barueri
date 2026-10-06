@@ -28,7 +28,7 @@ function setRandomUsernameSuggestion() {
 async function getProfile(user) {
   const { data, error } = await supabaseClient
     .from('profiles')
-    .select('id,email,username,full_name,avatar_url,bio')
+    .select('id,email,username,full_name,avatar_url,bio,is_admin')
     .eq('id', user.id)
     .maybeSingle();
 
@@ -46,7 +46,7 @@ async function getProfile(user) {
       avatar_url: '',
       bio: ''
     }, { onConflict: 'id' })
-    .select('id,email,username,full_name,avatar_url,bio')
+    .select('id,email,username,full_name,avatar_url,bio,is_admin')
     .single();
 
   if (createError) throw createError;
@@ -277,6 +277,9 @@ async function initProfilePage() {
   document.getElementById('profile-full-name').value = profile.full_name || '';
   document.getElementById('profile-bio').value = profile.bio || '';
   setAvatar(avatarPreview, profile, user);
+
+  const adminLink = document.getElementById('admin-area-link');
+  if (adminLink) adminLink.hidden = profile.is_admin !== true;
 
   fileInput.addEventListener('change', () => {
     const file = fileInput.files[0];
