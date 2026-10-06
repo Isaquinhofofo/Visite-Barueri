@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adicionar lugar – Visite Barueri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Pathway+Gothic+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=20261006-4">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2"></script>
+<script src="js/admin.js?v=20261006-3" defer></script>
+</head>
+<body>
+<main>
+<section class="page auth profile-page">
+  <a class="home home-logo" href="index.html" title="Início"><span class="pin">📍</span><span>Visite<br>Barueri</span></a>
+  <div class="caixa profile-card admin-card">
+    <h2>Adicionar lugar</h2>
+    <span class="admin-badge">Administrador</span>
+    <p class="admin-description">Cadastre um novo lugar para o Visite Barueri. Os campos com * são obrigatórios.</p>
+
+    <form id="place-form" class="admin-form">
+      <label>Nome do lugar *
+        <input id="place-name" name="name" type="text" required placeholder="Ex.: Parque Municipal Dom José">
+      </label>
+
+      <label>Categoria *
+        <select id="place-category" name="category" required>
+          <option value="">Selecione uma categoria</option>
+          <option>Restaurante</option>
+          <option>Parque</option>
+          <option>Shopping</option>
+          <option>Hotel</option>
+          <option>Cultura</option>
+          <option>Lazer</option>
+          <option>Esportes</option>
+          <option>Outros</option>
+        </select>
+      </label>
+
+      <label>Descrição *
+        <textarea id="place-description" name="description" rows="5" required placeholder="Conte um pouco sobre o lugar."></textarea>
+      </label>
+
+      <label>Imagem (URL)
+        <input id="place-image-url" name="image_url" type="url" placeholder="https://...">
+      </label>
+      <p class="admin-help">Por enquanto, coloque o link direto da imagem. O upload de imagens pode ser adicionado depois.</p>
+
+      <h3 class="admin-section-title">Localização</h3>
+
+      <label>Endereço *
+        <input id="place-address" name="address" type="text" required placeholder="Rua, número">
+      </label>
+
+      <label>Bairro *
+        <input id="place-neighborhood" name="neighborhood" type="text" required placeholder="Ex.: Centro">
+      </label>
+
+      <label>CEP
+        <input id="place-cep" name="cep" type="text" placeholder="06400-000">
+      </label>
+
+      <label>Google Maps
+        <input id="place-maps-url" name="maps_url" type="url" placeholder="https://maps.google.com/...">
+      </label>
+
+      <h3 class="admin-section-title">Contato</h3>
+
+      <label>Telefone
+        <input id="place-phone" name="phone" type="tel" placeholder="(11) 0000-0000">
+      </label>
+
+      <label>WhatsApp
+        <input id="place-whatsapp" name="whatsapp" type="tel" placeholder="(11) 90000-0000">
+      </label>
+
+      <label>Site
+        <input id="place-website" name="website" type="url" placeholder="https://...">
+      </label>
+
+      <label>Instagram
+        <input id="place-instagram" name="instagram" type="text" placeholder="@perfil">
+      </label>
+
+      <h3 class="admin-section-title">Funcionamento</h3>
+
+      <label>Dias de funcionamento
+        <input id="place-opening-days" name="opening_days" type="text" placeholder="Segunda a domingo">
+      </label>
+
+      <div class="admin-two-columns">
+        <label>Abre às
+          <input id="place-opening-time" name="opening_time" type="time">
+        </label>
+        <label>Fecha às
+          <input id="place-closing-time" name="closing_time" type="time">
+        </label>
+      </div>
+
+      <h3 class="admin-section-title">Informações extras</h3>
+
+      <label>Faixa de preço
+        <select id="place-price-range" name="price_range">
+          <option value="">Não informado</option>
+          <option>Grátis</option>
+          <option>$</option>
+          <option>$$</option>
+          <option>$$$</option>
+          <option>$$$$</option>
+        </select>
+      </label>
+
+      <label class="admin-checkbox">
+        <input id="place-accessibility" name="accessibility" type="checkbox">
+        <span>Possui acessibilidade</span>
+      </label>
+
+      <p id="place-message" class="profile-message" aria-live="polite"></p>
+      <button class="btn" type="submit">Adicionar lugar</button>
+      <a class="profile-back" href="admin.html">Voltar para administração</a>
+    </form>
+  </div>
+</section>
+</main>
+<footer class="rodape">© 2026 – Visite Barueri</footer>
+</body>
+</html>
